@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-11-06T11:00:35-06:00</updated><id>/feed.xml</id><title type="html">KiloCrumbs Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Setting up Docker and Jekyll</title><link href="/jekyll/docker/git/github/2022/11/05/setting-up-jekyll-in-docker.html" rel="alternate" type="text/html" title="Setting up Docker and Jekyll" /><published>2022-11-05T14:25:00-05:00</published><updated>2022-11-05T14:25:00-05:00</updated><id>/jekyll/docker/git/github/2022/11/05/setting-up-jekyll-in-docker</id><content type="html" xml:base="/jekyll/docker/git/github/2022/11/05/setting-up-jekyll-in-docker.html"><![CDATA[<p>We’ll setup a basic Docker installation, and use a container to run Jekyll to generate a static site blog, make a post, write a draft, and run a development server to test the blog.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-11-06T15:59:19-06:00</updated><id>/feed.xml</id><title type="html">KiloCrumbs Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Setting up Docker and Jekyll</title><link href="/jekyll/docker/git/github/2022/11/05/setting-up-jekyll-in-docker.html" rel="alternate" type="text/html" title="Setting up Docker and Jekyll" /><published>2022-11-05T14:25:00-05:00</published><updated>2022-11-05T14:25:00-05:00</updated><id>/jekyll/docker/git/github/2022/11/05/setting-up-jekyll-in-docker</id><content type="html" xml:base="/jekyll/docker/git/github/2022/11/05/setting-up-jekyll-in-docker.html"><![CDATA[<p>We’ll setup a basic Docker installation, and use a container to run Jekyll to generate a static site blog, make a post, write a draft, and run a development server to test the blog.</p>
 
 <hr />
 <p><strong>Note</strong></p>
@@ -103,4 +103,51 @@ Place your draft post file, without a date in the filename, in this directory. F
 </code></pre></div></div>
 
 <h3 id="whats-next">What’s Next?</h3>
-<p>Next, I’ll be using Git for version control, and for storing on a GitHub repo (possibly to use with GitHub pages, or to use for automated deployment, we’ll see!)</p>]]></content><author><name></name></author><category term="jekyll" /><category term="docker" /><category term="git" /><category term="github" /><summary type="html"><![CDATA[We’ll setup a basic Docker installation, and use a container to run Jekyll to generate a static site blog, make a post, write a draft, and run a development server to test the blog.]]></summary></entry></feed>
+<p>Next, I’ll be using Git for version control, and for storing on a GitHub repo (possibly to use with GitHub pages, or to use for automated deployment, we’ll see!)</p>]]></content><author><name></name></author><category term="jekyll" /><category term="docker" /><category term="git" /><category term="github" /><summary type="html"><![CDATA[We’ll setup a basic Docker installation, and use a container to run Jekyll to generate a static site blog, make a post, write a draft, and run a development server to test the blog.]]></summary></entry><entry><title type="html">Using Github with Jekyll</title><link href="/jekyll/git/github/2022/11/05/git-with-jekyll.html" rel="alternate" type="text/html" title="Using Github with Jekyll" /><published>2022-11-05T14:25:00-05:00</published><updated>2022-11-05T14:25:00-05:00</updated><id>/jekyll/git/github/2022/11/05/git-with-jekyll</id><content type="html" xml:base="/jekyll/git/github/2022/11/05/git-with-jekyll.html"><![CDATA[<p>We’ll setup a git repo to track our changes and push it to GitHub.</p>
+
+<h2 id="setup-git-credential-store">Setup Git Credential Store</h2>
+<h3 id="configure-git-to-use-gpg">Configure Git to use GPG</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> credential.credentialStore gpg
+</code></pre></div></div>
+
+<h3 id="generate-a-gpg-key-pair">Generate a GPG Key Pair</h3>
+<p>(if you don’t already have one)</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gpg <span class="nt">--gen-key</span>
+</code></pre></div></div>
+
+<h3 id="install-pass-and-init-with-gpg-key">Install Pass and init with gpg-key</h3>
+<p>Replace [gpg-key] with the public key (hex string) shown in output of command above, or from “gpg -k”</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>pass
+pass init <span class="o">[</span>gpg-key]
+</code></pre></div></div>
+
+<h3 id="install-and-configure-git-credential-manager">Install and configure Git Credential Manager</h3>
+<p>(Check, were some of the previous steps unneccisary?)</p>
+
+<p><strong>Be sure to get the latest release for GCM instead of using the link provided below.</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget <span class="s2">"https://github.com/GitCredentialManager/git-credential-manager/releases/download/v2.0.785/gcm-linux_amd64.2.0.785.deb"</span> <span class="nt">-O</span> /tmp/gcmcore.deb
+<span class="nb">sudo </span>dpkg <span class="nt">-i</span> /tmp/gcmcore.deb
+git-credential-manager-core configure
+git config <span class="nt">--global</span> credential.interactive <span class="nb">true
+</span>git config <span class="nt">--global</span> user.name <span class="s2">"[username_goes_here]"</span>
+git config <span class="nt">--global</span> user.email <span class="s2">"[email_goes_here]"</span>
+<span class="c">#create repo in github for jekyll source files</span>
+git init
+git branch <span class="nt">-M</span> main
+<span class="nb">touch test
+</span>git add <span class="nb">test
+</span>git commit <span class="nt">-m</span> <span class="s2">"Created Test"</span>
+git remote add origin <span class="o">[</span>github_url_to_source_repo_goes_here]
+git push <span class="nt">-u</span> origin main
+<span class="c">#create repo in github for site</span>
+<span class="nb">cd </span>_site
+git init
+git branch <span class="nt">-M</span> main
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"Initial Commit of Site"</span>
+git remote add origin <span class="o">[</span>github_url_to_site_repo_goes_here]
+git push <span class="nt">-u</span> origin main
+</code></pre></div></div>
+
+<h2 id="whats-next">What’s Next?</h2>
+<p>Next, I’ll configure a static Website on Google Cloud Platform, and upload my site using Cloud Build Automation</p>]]></content><author><name></name></author><category term="jekyll" /><category term="git" /><category term="github" /><summary type="html"><![CDATA[We’ll setup a git repo to track our changes and push it to GitHub.]]></summary></entry></feed>
